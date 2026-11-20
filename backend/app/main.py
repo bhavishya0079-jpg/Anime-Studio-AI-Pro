@@ -16,19 +16,22 @@ from backend.app.routers import uploads
 from backend.app.routers import character_voice
 from backend.app.routers import subtitle_sync
 
+
 app = FastAPI(
     title="Anime Studio AI Pro",
     description="AI Anime Creation and Hindi Dubbing Studio",
     version="1.0.0"
 )
 
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 app.include_router(health.router, prefix="/api")
 app.include_router(scripts.router, prefix="/api/scripts")
@@ -41,10 +44,12 @@ app.include_router(subtitles.router, prefix="/api/subtitles")
 app.include_router(youtube.router, prefix="/api/youtube")
 app.include_router(projects.router, prefix="/api/projects")
 app.include_router(uploads.router, prefix="/api/uploads")
+
 app.include_router(
     character_voice.router,
     prefix="/api/character-voice"
 )
+
 app.include_router(
     subtitle_sync.router,
     prefix="/api/subtitle-sync"
