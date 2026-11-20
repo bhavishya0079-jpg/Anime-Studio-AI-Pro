@@ -1,5 +1,7 @@
+
 import os
 import subprocess
+import imageio_ffmpeg
 
 
 def mix_audio(
@@ -16,10 +18,16 @@ def mix_audio(
 
     music_volume = max(0.0, min(1.0, music_volume))
 
-    os.makedirs(os.path.dirname(output_file) or ".", exist_ok=True)
+    os.makedirs(
+        os.path.dirname(output_file) or ".",
+        exist_ok=True
+    )
+
+    ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
 
     command = [
-        "ffmpeg", "-y",
+        ffmpeg,
+        "-y",
         "-i", voice_file,
         "-i", music_file,
         "-filter_complex",
@@ -40,3 +48,4 @@ def mix_audio(
         raise RuntimeError(result.stderr[-1000:])
 
     return output_file
+    
