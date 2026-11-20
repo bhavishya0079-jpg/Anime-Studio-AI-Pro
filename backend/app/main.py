@@ -14,6 +14,7 @@ from backend.app.routers import youtube
 from backend.app.routers import projects
 from backend.app.routers import uploads
 from backend.app.routers import character_voice
+from backend.app.routers import subtitle_sync
 
 app = FastAPI(
     title="Anime Studio AI Pro",
@@ -44,6 +45,11 @@ app.include_router(
     character_voice.router,
     prefix="/api/character-voice"
 )
+app.include_router(
+    subtitle_sync.router,
+    prefix="/api/subtitle-sync"
+)
+
 
 @app.get("/")
 def home():
