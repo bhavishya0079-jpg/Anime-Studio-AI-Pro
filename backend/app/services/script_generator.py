@@ -1,3 +1,4 @@
+
 from google import genai
 from backend.app.config import GEMINI_API_KEY
 
@@ -11,7 +12,7 @@ def generate_script(topic: str, mode: str = "original", episode: str = ""):
 
     if mode == "explanation":
         prompt = f"""
-        Create an engaging and accurate Hindi anime explanation script.
+        Create an engaging Hindi anime explanation script.
 
         Anime: {topic}
         Episode: {episode}
@@ -41,8 +42,9 @@ def generate_script(topic: str, mode: str = "original", episode: str = ""):
         """
 
     response = client.models.generate_content(
-        model="gemini-2.5-flash",
+        model="gemini-3.8-flash",
         contents=prompt
     )
 
     return response.text
+    
