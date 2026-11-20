@@ -8,3 +8,4 @@ pydantic>=2.0
 python-dotenv
 edge-tts
 aiofiles
+httpx
