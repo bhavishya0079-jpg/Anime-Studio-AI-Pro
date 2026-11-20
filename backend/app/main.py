@@ -11,6 +11,7 @@ from backend.app.routers import audio
 from backend.app.routers import subtitles
 from backend.app.routers import youtube
 from backend.app.routers import projects
+from backend.app.routers import uploads
 
 app = FastAPI(
     title="Anime Studio AI Pro",
@@ -36,6 +37,7 @@ app.include_router(audio.router, prefix="/api/audio")
 app.include_router(subtitles.router, prefix="/api/subtitles")
 app.include_router(youtube.router, prefix="/api/youtube")
 app.include_router(projects.router, prefix="/api/projects")
+app.include_router(uploads.router, prefix="/api/uploads")
 
 
 @app.get("/")
