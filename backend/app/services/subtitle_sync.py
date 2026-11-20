@@ -1,7 +1,4 @@
 
-from difflib import SequenceMatcher
-
-
 def sync_subtitles(dialogues: list, duration: float):
     if not dialogues:
         raise ValueError("No dialogue provided.")
@@ -14,28 +11,49 @@ def sync_subtitles(dialogues: list, duration: float):
     for item in dialogues:
         text = str(item.get("text", "")).strip()
 
-        if text:
-            valid_dialogues.append({
-                "character": item.get("character", ""),
-                "text": text
-            })
+        if not text:
+            continue
+
+        words = text.split()
+
+        weight = len(words)
+
+        # Give a little extra time for punctuation pauses.
+        weight += sum(
+            0.5 for char in text
+            if char in "।.!?;,"
+        )
+
+        valid_dialogues.append({
+            "character": str(item.get("character", "")),
+            "text": text,
+            "weight": max(weight, 1)
+        })
 
     if not valid_dialogues:
         raise ValueError("No valid dialogue found.")
 
-    total_chars = sum(
-        len(item["text"]) for item in valid_dialogues
+    total_weight = sum(
+        item["weight"] for item in valid_dialogues
     )
 
     current_time = 0.0
     results = []
 
-    for item in valid_dialogues:
-        share = len(item["text"]) / total_chars
-        segment_duration = duration * share
-
+    for index, item in enumerate(valid_dialogues):
         start = current_time
-        end = min(duration, start + segment_duration)
+
+        if index == len(valid_dialogues) - 1:
+            end = duration
+        else:
+            segment_duration = (
+                duration * item["weight"] / total_weight
+            )
+
+            end = min(
+                duration,
+                start + segment_duration
+            )
 
         results.append({
             "character": item["character"],
@@ -47,4 +65,4 @@ def sync_subtitles(dialogues: list, duration: float):
         current_time = end
 
     return results
-  
+    
