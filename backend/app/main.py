@@ -15,6 +15,7 @@ from backend.app.routers import projects
 from backend.app.routers import uploads
 from backend.app.routers import character_voice
 from backend.app.routers import subtitle_sync
+from backend.app.routers import media
 
 
 app = FastAPI(
@@ -53,6 +54,11 @@ app.include_router(
 app.include_router(
     subtitle_sync.router,
     prefix="/api/subtitle-sync"
+)
+
+app.include_router(
+    media.router,
+    prefix="/media"
 )
 
 
