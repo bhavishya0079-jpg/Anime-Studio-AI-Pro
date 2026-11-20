@@ -1,5 +1,5 @@
 
-import { API } from "./api.js";
+import { API, API_BASE_URL } from "./api.js";
 
 // =====================================
 // ANIME STUDIO AI PRO
@@ -54,6 +54,34 @@ export async function generateAnimeVisual({
 
     if (!result || !result.success || !result.image_file) {
       throw new Error("AI visual generation returned no image.");
+    }
+
+    const imagePath = result.image_file.replace(/\\/g, "/");
+
+    if (!imagePath.startsWith("outputs/")) {
+      throw new Error("Invalid image path.");
+    }
+
+    result.image_url =
+      `${API_BASE_URL}/media/${imagePath
+        .slice("outputs/".length)
+        .split("/")
+        .map(encodeURIComponent)
+        .join("/")}`;
+
+    const preview = document.createElement("img");
+    preview.src = result.image_url;
+    preview.alt = "Generated Anime Scene";
+    preview.className = "preview-image";
+    preview.style.width = "100%";
+    preview.style.height = "auto";
+    preview.style.borderRadius = "12px";
+
+    const output = document.getElementById("visualOutput");
+
+    if (output) {
+      output.textContent = "";
+      output.appendChild(preview);
     }
 
     onSuccess(result);
