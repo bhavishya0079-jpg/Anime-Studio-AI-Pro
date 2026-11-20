@@ -163,7 +163,7 @@ export const API = {
 // Check backend connection
 export async function checkBackendConnection() {
   try {
-    const result = await API.health;
+    const result = await API.health();
     return {
       connected: true,
       data: result
