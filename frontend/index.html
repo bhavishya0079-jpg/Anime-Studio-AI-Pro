@@ -367,4 +367,43 @@
           </div>
           <div id="uploadFileInfo" class="text-muted mb-2"></div>
           <button class="btn btn-primary" id="uploadMediaBtn">📤 Upload File</button>
-          <div class="output-box mt-2" id="uploadOutput">Upload informatio
+          <div class="output-box mt-2" id="uploadOutput">
+Upload information will appear here.</div>
+        </div>
+      </section>
+
+      <!-- YOUTUBE STUDIO -->
+      <section class="studio-section" id="page-youtube">
+        <h1 class="page-title">YouTube Studio</h1>
+        <p>તમારા anime video માટે title, description અને hashtags બનાવો.</p>
+        <div class="panel">
+          <label class="form-label" for="youtubeTopic">Video Topic</label>
+          <textarea class="form-control" id="youtubeTopic" placeholder="Enter your anime video topic..."></textarea>
+          <button class="btn btn-primary mt-2" id="generateYoutubeBtn">Generate YouTube Metadata</button>
+          <div class="output-box mt-2" id="youtubeOutput">YouTube metadata will appear here.</div>
+          <div class="result-actions">
+            <button class="btn btn-secondary" id="copyYoutubeBtn">Copy</button>
+            <button class="btn btn-secondary" id="downloadYoutubeBtn">Download TXT</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="studio-section" id="page-projects">
+        <h1 class="page-title">My Projects</h1>
+        <p>તમારા સેવ કરેલા anime projects જુઓ.</p>
+        <div class="panel">
+          <button class="btn btn-primary" id="refreshProjectsBtn">Refresh Projects</button>
+          <div class="output-box mt-2" id="projectsOutput">Your saved projects will appear here.</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div id="toast-container" aria-live="polite"></div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
