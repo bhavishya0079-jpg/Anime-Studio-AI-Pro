@@ -357,6 +357,7 @@ function initializeCharacterStudio() {
 let currentDubbingScript = "";
 
 function initializeDubbingStudio() {
+  el("hindiDubFields")?.classList.add("hidden");
   el("dubbingMode")?.addEventListener("change", () => {
     const isHindi = value("dubbingMode") === "hindi_dub";
     el("hindiDubFields")?.classList.toggle("hidden", !isHindi);
