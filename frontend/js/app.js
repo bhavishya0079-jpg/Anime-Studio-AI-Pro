@@ -610,14 +610,19 @@ function initializeUploadStudio() {
         field.value = [field.value, result.file_path].filter(Boolean).join("\n");
       }
     } else if (file.type.startsWith("audio/")) {
-      const voiceField = el("videoAudioPath");
-      const musicField = el("mixMusicPath");
+      const voiceField = el("mixVoicePath");
+const videoVoiceField = el("videoAudioPath");
+const musicField = el("mixMusicPath");
 
-      if (voiceField && !voiceField.value) {
-        voiceField.value = result.file_path;
-      } else if (musicField) {
-        musicField.value = result.file_path;
-      }
+if (voiceField && !voiceField.value) {
+  voiceField.value = result.file_path;
+
+  if (videoVoiceField && !videoVoiceField.value) {
+    videoVoiceField.value = result.file_path;
+  }
+} else if (musicField && !musicField.value) {
+  musicField.value = result.file_path;
+}
     }
 
     showToast("File uploaded successfully.", "success");
