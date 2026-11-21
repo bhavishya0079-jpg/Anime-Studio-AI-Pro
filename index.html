@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b14">
+  <meta name="description" content="Anime Studio AI Pro - Create anime stories, Hindi voices, dubbing, visuals and videos.">
+  <title>Anime Studio AI Pro</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+    .workspace { display:grid; grid-template-columns:minmax(0,1fr) minmax(280px,.75fr); gap:20px; }
+    .studio-section { display:none; }
+    .studio-section.active { display:block; }
+    .output-box { white-space:pre-wrap; min-height:100px; max-height:420px; overflow:auto; padding:15px; border-radius:10px; background:var(--surface-2); color:var(--text); font-size:13px; }
+    .toast { margin:8px; padding:12px 16px; border-radius:10px; background:#222a3d; border:1px solid var(--border); color:white; }
+    #toast-container { position:fixed; right:16px; bottom:16px; z-index:9999; max-width: min(360px,90vw); }
+    .file-note { font-size:12px; color:var(--muted); margin-top:6px; }
+    .brand-tag { color:var(--primary-light); font-size:11px; font-weight:700; }
+    .stat-number { font-size:25px; font-weight:800; }
+    .studio-section h2 { margin-bottom:8px; }
+    .studio-section > p { color:var(--muted); margin-bottom:22px; font-size:14px; }
+    .result-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+    .preview-image { max-height:360px; object-fit:contain; border-radius:12px; }
+    .connection-dot { display:inline-block; width:9px; height:9px; border-radius:50%; background:#f59e0b; margin-right:7px; }
+    html[data-backend="connected"] .connection-dot { background:#22c55e; }
+    @media(max-width:900px) { .workspace { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div class="app-shell">
+
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">ア</div>
+      <div>
+        <div class="brand-name">Anime Studio AI</div>
+        <div class="brand-subtitle">PRO CREATOR WORKSPACE</div>
+      </div>
+    </div>
+
+    <div class="nav-section">Workspace</div>
+    <nav class="nav-list">
+      <a href="#dashboard" class="nav-link active" data-page="dashboard">🏠 Dashboard</a>
+      <a href="#script" class="nav-link" data-page="script">📝 Script Studio</a>
+      <a href="#voice" class="nav-link" data-page="voice">🎙️ Hindi Voice Studio</a>
+      <a href="#characters" class="nav-link" data-page="characters">🎭 Character Voices</a>
+      <a href="#dubbing" class="nav-link" data-page="dubbing">🗣️ Hindi Dubbing Studio</a>
+      <a href="#visuals" class="nav-link" data-page="visuals">🎨 AI Visual Studio</a>
+      <a href="#editor" class="nav-link" data-page="editor">🎬 Video Editor</a>
+      <a href="#music" class="nav-link" data-page="music">🎵 Music Studio</a>
+      <a href="#subtitles" class="nav-link" data-page="subtitles">💬 Subtitle Studio</a>
+      <a href="#uploads" class="nav-link" data-page="uploads">📁 Upload Studio</a>
+      <a href="#youtube" class="nav-link" data-page="youtube">▶️ YouTube Studio</a>
+      <a href="#projects" class="nav-link" data-page="projects">🗂️ My Projects</a>
+    </nav>
+
+    <div class="nav-section">System</div>
+    <div class="panel">
+      <div class="brand-tag">BACKEND STATUS</div>
+      <p class="mt-1"><span class="connection-dot"></span><span id="backendStatus">Checking connection...</span></p>
+    </div>
+    <p class="brand-subtitle">Anime Studio AI Pro · Creator Edition</p>
+  </aside>
+
+  <main class="main-area">
+    <header class="topbar">
+      <div class="flex" style="align-items:center;gap:12px">
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+        <div>
+          <strong id="topbarTitle">Dashboard</strong>
+          <div class="brand-subtitle">Your anime creation workspace</div>
+        </div>
+      </div>
+      <span class="status status-success">✦ AI CREATOR</span>
+    </header>
+
+    <div class="page-content">
+
+      <!-- DASHBOARD -->
+      <section class="studio-section active" id="page-dashboard">
+        <h1 class="page-title">Create Your Anime Universe ✨</h1>
+        <p class="page-description">તમારી કલ્પનાને anime stories, Hindi voices અને videos માં ફેરવો.</p>
+
+        <div class="card-grid">
+          <a href="#script" class="card studio-card" data-page="script">
+            <div class="card-icon">📝</div>
+            <div class="card-title">Hindi Script Studio</div>
+            <p class="card-description">Original anime stories અને episode explanations બનાવો.</p>
+          </a>
+          <a href="#voice" class="card studio-card" data-page="voice">
+            <div class="card-icon">🎙️</div>
+            <div class="card-title">Hindi Voice Studio</div>
+            <p class="card-description">AI Hindi narration અને dialogue audio બનાવો.</p>
+          </a>
+          <a href="#dubbing" class="card studio-card" data-page="dubbing">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">Hindi Dubbing</div>
+            <p class="card-description">Character-wise Hindi dubbing script તૈયાર કરો.</p>
+          </a>
+          <a href="#visuals" class="card studio-card" data-page="visuals">
+            <div class="card-icon">🎨</div>
+            <div class="card-title">AI Visual Studio</div>
+            <p class="card-description">Anime scenes માટે AI visual generation.</p>
+          </a>
+          <a href="#editor" class="card studio-card" data-page="editor">
+            <div class="card-icon">🎬</div>
+            <div class="card-title">Video Editor</div>
+            <p class="card-description">Scene images અને audio થી video બનાવો.</p>
+          </a>
+          <a href="#characters" class="card studio-card" data-page="characters">
+            <div class="card-icon">🎭</div>
+            <div class="card-title">Character Voice Studio</div>
+            <p class="card-description">અલગ પાત્રો માટે voice profiles અને dialogues.</p>
+          </a>
+        </div>
+
+        <div class="panel mt-3">
+          <h3 class="section-title">Creation Workflow</h3>
+          <p class="text-muted">Script → Character Voices → Visuals → Editing → Music → Subtitles → Export</p>
+          <div class="result-actions">
+            <button class="btn btn-primary" data-page="script">Start Creating →</button>
+            <button class="btn btn-secondary" data-page="projects">My Projects</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCRIPT STUDIO -->
+      <section class="studio-section" id="page-script">
+        <h1 class="page-title">Hindi Script Studio</h1>
+        <p>Original anime story અથવા episode explanation માટે Hindi script બનાવો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="scriptMode">Creation Mode</label>
+            <select class="form-control" id="scriptMode">
+              <option value="original">Original Anime Story</option>
+              <option value="explanation">Anime Episode Explanation</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="scriptTopic">Anime Title / Story Topic</label>
+            <input class="form-control" id="scriptTopic" placeholder="Enter anime title or your story idea">
+          </div>
+          <div class="form-group hidden" id="episodeGroup">
+            <label class="form-label" for="episodeNumber">Episode Number</label>
+            <input class="form-control" id="episodeNumber" placeholder="Episode 1">
+          </div>
+          <button class="btn btn-primary" id="generateScriptBtn">✨ Generate Hindi Script</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><h3>Generated Script</h3><span class="brand-tag">AI OUTPUT</span></div>
+          <div class="output-box" id="scriptOutput">Your generated script will appear here.</div>
+          <div class="result-actions">
+            <button class="btn btn-secondary" id="copyScriptBtn">Copy Script</button>
+            <button class="btn btn-secondary" id="downloadScriptBtn">Download TXT</button>
+            <button class="btn btn-primary" id="saveScriptBtn">Save Project</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VOICE STUDIO -->
+      <section class="studio-section" id="page-voice">
+        <h1 class="page-title">Hindi Voice Studio</h1>
+        <p>તમારા script ને Hindi AI narration માં ફેરવો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="voiceText">Hindi Text</label>
+            <textarea class="form-control" id="voiceText" placeholder="यहाँ अपना हिंदी डायलॉग लिखें..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="voiceType">Voice Type</label>
+            <select class="form-control" id="voiceType">
+              <option value="female">Female - Swara</option>
+              <option value="male">Male - Madhur</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="generateVoiceBtn">🎙️ Generate Voice</button>
+        </div>
+        <div class="panel">
+          <h3 class="section-title">Voice Preview</h3>
+          <audio id="voicePreview" controls class="hidden" style="width:100%"></audio>
+          <button class="btn btn-secondary mt-2" id="downloadVoiceBtn" disabled>Download MP3</button>
+        </div>
+      </section>
+
+      <!-- CHARACTER VOICE STUDIO -->
+      <section class="studio-section" id="page-characters">
+        <h1 class="page-title">Character Voice Studio</h1>
+        <p>દરેક anime character માટે અલગ dialogue અને voice type પસંદ કરો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="characterName">Character Name</label>
+            <input class="form-control" id="characterName" placeholder="Hero">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="characterDialogue">Dialogue</label>
+            <textarea class="form-control" id="characterDialogue" placeholder="Enter character dialogue..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="characterVoiceType">Voice Type</label>
+            <select class="form-control" id="characterVoiceType">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <button class="btn btn-secondary" id="addCharacterDialogueBtn">+ Add Dialogue</button>
+          <div class="output-box mt-2" id="characterQueue">No dialogues added.</div>
+          <button class="btn btn-primary mt-2" id="generateCharacterVoicesBtn">Generate Character Voices</button>
+        </div>
+        <div class="panel">
+          <h3 class="section-title">Generated Character Audio</h3>
+          <div id="characterResults" class="output-box">Your character voice files will appear here.</div>
+        </div>
+      </section>
+
+      <!-- DUBBING STUDIO -->
+      <section class="studio-section" id="page-dubbing">
+        <h1 class="page-title">Hindi Dubbing Studio</h1>
+        <p>Original audio જાળવો અથવા Hindi dubbing script બનાવો. Source video માટે જરૂરી અધિકાર હોવા જોઈએ.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="dubbingMode">Audio Mode</label>
+            <select class="form-control" id="dubbingMode">
+              <option value="original_audio">Original Audio Mode - Preserve source audio</option>
+              <option value="hindi_dub">Hindi Dub Mode</option>
+            </select>
+          </div>
+          <div id="hindiDubFields">
+            <div class="form-group">
+              <label class="form-label" for="animeTitle">Anime Title</label>
+              <input class="form-control" id="animeTitle" placeholder="Anime title">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="originalDialogue">Original Dialogue / Transcript</label>
+              <textarea class="form-control" id="originalDialogue" placeholder="Paste dialogue transcript here..."></textarea>
+            </div>
+            <button class="btn btn-primary" id="generateDubbingBtn">Generate Hindi Dubbing Script</button>
+          </div>
+          <div class="output-box mt-2" id="dubbingOutput">Hindi dubbing script will appear here.</div>
+          <button class="btn btn-secondary mt-2" id="downloadDubbingBtn">Download Dubbing Script</button>
+          <p class="file-note">નોંધ: હાલનું backend text transcript પરથી Hindi script બનાવે છે. Audio extraction, automatic lip-sync અને સંપૂર્ણ video dubbing હજી અલગ development કામ છે.</p>
+        </div>
+      </section>
+
+      <!-- VISUAL STUDIO -->
+      <section class="studio-section" id="page-visuals">
+        <h1 class="page-title">AI Visual Studio</h1>
+        <p>Anime scene માટે visual generation request બનાવો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="sceneDescription">Scene Description</label>
+            <textarea class="form-control" id="sceneDescription" placeholder="A brave anime hero standing under a glowing moon..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="characterDetails">Character Details</label>
+            <textarea class="form-control" id="characterDetails" placeholder="Character appearance, clothes, hair, colors..."></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="visualRatio">Aspect Ratio</label>
+            <select class="form-control" id="visualRatio">
+              <option value="9:16">9:16 Shorts</option>
+              <option value="16:9">16:9 Landscape</option>
+              <option value="1:1">1:1 Square</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" id="generateVisualBtn">🎨 Generate Anime Visual</button>
+          <div class="output-box mt-2" id="visualOutput">Generated image information will appear here.</div>
+          <p class="file-note">Image file server પર બને છે. Public preview માટે image-serving feature આગળ ઉમેરવાનું રહેશે.</p>
+        </div>
+      </section>
+
+      <!-- VIDEO EDITOR -->
+      <section class="studio-section" id="page-editor">
+        <h1 class="page-title">Automatic Video Editor</h1>
+        <p>Uploaded scene images અને audio file થી video render request મોકલો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="videoImagePaths">Scene Image Paths (one path per line)</label>
+            <textarea class="form-control" id="videoImagePaths" placeholder="outputs/uploads/scene1.png&#10;outputs/uploads/scene2.png"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="videoAudioPath">Audio File Path</label>
+            <input class="form-control" id="videoAudioPath" placeholder="outputs/uploads/voice.mp3">
+          </div>
+          <div class="grid-2">
+            <div class="form-group">
+              <label class="form-label" for="videoRatio">Video Ratio</label>
+              <select class="form-control" id="videoRatio">
+                <option value="9:16">9:16 Shorts</option>
+                <option value="16:9">16:9 Long Video</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="videoFps">FPS</label>
+              <select class="form-control" id="videoFps">
+                <option value="24">24 FPS</option>
+                <option value="30" selected>30 FPS</option>
+                <option value="60">60 FPS</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="sceneDuration">Scene Duration (seconds)</label>
+            <input class="form-control" id="sceneDuration" type="number" min="1" max="60" value="5">
+          </div>
+          <button class="btn btn-primary" id="renderVideoBtn">🎬 Render Video</button>
+          <div class="output-box mt-2" id="videoOutput">Video render status will appear here.</div>
+          <p class="file-note">હાલનું renderer basic image slideshow અને audio પર આધારિત છે. Advanced transitions, zoom અને subtitle burn-in આગળ ઉમેરવાના છે.</p>
+        </div>
+      </section>
+
+      <!-- MUSIC STUDIO -->
+      <section class="studio-section" id="page-music">
+        <h1 class="page-title">Music & Sound Studio</h1>
+        <p>Voice અને background music ને mix કરો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="mixVoicePath">Voice Audio Path</label>
+            <input class="form-control" id="mixVoicePath" placeholder="outputs/uploads/voice.mp3">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mixMusicPath">Background Music Path</label>
+            <input class="form-control" id="mixMusicPath" placeholder="outputs/uploads/music.mp3">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="musicVolume">Music Volume</label>
+            <input class="form-control" id="musicVolume" type="range" min="0" max="1" step="0.05" value="0.15">
+            <span id="musicVolumeValue">15%</span>
+          </div>
+          <button class="btn btn-primary" id="mixAudioBtn">🎵 Mix Audio</button>
+          <audio id="mixedAudioPreview" controls class="hidden mt-2" style="width:100%"></audio>
+          <button class="btn btn-secondary mt-2" id="downloadMixedAudioBtn" disabled>Download Mixed Audio</button>
+        </div>
+      </section>
+
+      <!-- SUBTITLE STUDIO -->
+      <section class="studio-section" id="page-subtitles">
+        <h1 class="page-title">Hindi Subtitle Studio</h1>
+        <p>Dialogue ને video duration પ્રમાણે subtitle timing આપો અને SRT export કરો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="subtitleDialogue">Dialogues (one line per dialogue)</label>
+            <textarea class="form-control" id="subtitleDialogue" placeholder="Hero: नमस्ते दोस्तों!&#10;Friend: तुम कैसे हो?"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="subtitleDuration">Video Duration (seconds)</label>
+            <input class="form-control" id="subtitleDuration" type="number" min="1" value="30">
+          </div>
+          <button class="btn btn-primary" id="syncSubtitleBtn">Synchronize Subtitles</button>
+          <div class="output-box mt-2" id="subtitleOutput">Subtitle timing will appear here.</div>
+          <button class="btn btn-secondary mt-2" id="downloadSubtitleBtn" disabled>Download SRT</button>
+          <p class="file-note">Timing હાલ અંદાજિત છે; waveform-based speech alignment હજી ઉમેરવાનું છે.</p>
+        </div>
+      </section>
+
+      <!-- UPLOAD STUDIO -->
+      <section class="studio-section" id="page-uploads">
+        <h1 class="page-title">Upload Studio</h1>
+        <p>Images, audio અને video files upload કરો.</p>
+        <div class="panel">
+          <div class="form-group">
+            <label class="form-label" for="mediaFile">Choose Media File</label>
+            <input class="form-control" type="file" id="mediaFile" accept="image/jpeg,image/png,image/webp,audio/mpeg,audio/wav,video/mp4,video/webm,video/quicktime">
+            <p class="file-note">Supported: JPG, PNG, WEBP, MP3, WAV, MP4, WEBM, MOV.</p>
+          </div>
+          <div id="uploadFileInfo" class="text-muted mb-2"></div>
+          <button class="btn btn-primary" id="uploadMediaBtn">📤 Upload File</button>
+          <div class="output-box mt-2" id="uploadOutput">
+Upload information will appear here.</div>
+        </div>
+      </section>
+
+      <!-- YOUTUBE STUDIO -->
+      <section class="studio-section" id="page-youtube">
+        <h1 class="page-title">YouTube Studio</h1>
+        <p>તમારા anime video માટે title, description અને hashtags બનાવો.</p>
+        <div class="panel">
+          <label class="form-label" for="youtubeTopic">Video Topic</label>
+          <textarea class="form-control" id="youtubeTopic" placeholder="Enter your anime video topic..."></textarea>
+          <button class="btn btn-primary mt-2" id="generateYoutubeBtn">Generate YouTube Metadata</button>
+          <div class="output-box mt-2" id="youtubeOutput">YouTube metadata will appear here.</div>
+          <div class="result-actions">
+            <button class="btn btn-secondary" id="copyYoutubeBtn">Copy</button>
+            <button class="btn btn-secondary" id="downloadYoutubeBtn">Download TXT</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="studio-section" id="page-projects">
+        <h1 class="page-title">My Projects</h1>
+        <p>તમારા સેવ કરેલા anime projects જુઓ.</p>
+        <div class="panel">
+          <button class="btn btn-primary" id="refreshProjectsBtn">Refresh Projects</button>
+          <div class="output-box mt-2" id="projectsOutput">Your saved projects will appear here.</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<div id="toast-container" aria-live="polite"></div>
+
+<script type="module" src="./js/app.js"></script>
+</body>
+</html>
