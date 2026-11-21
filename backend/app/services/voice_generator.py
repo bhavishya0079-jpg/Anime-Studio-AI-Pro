@@ -13,10 +13,10 @@ async def generate_voice(text: str, voice_type: str = "female"):
     if not text.strip():
         raise ValueError("Voice text cannot be empty.")
 
-    voice = VOICE_OPTIONS.get(
-        voice_type,
-        VOICE_OPTIONS["female"]
-    )
+    if voice_type not in VOICE_OPTIONS:
+    raise ValueError("Invalid voice type. Choose male or female.")
+
+voice = VOICE_OPTIONS[voice_type]
 
     os.makedirs("outputs/audio", exist_ok=True)
 
