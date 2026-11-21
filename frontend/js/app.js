@@ -385,7 +385,7 @@ function initializeDubbingStudio() {
     ).map(item => ({
       character: item.character,
       text: item.text,
-      voice_type: "female"
+            voice_type: value("characterVoiceType") || "male"
     }));
 
     output(
