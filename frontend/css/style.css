@@ -486,7 +486,7 @@ select.form-control option {
     transform: translateX(0);
   }
 
-  .sidebar-overlay.show {
+  .sidebar-overlay.active {
     display: block;
     position: fixed;
     inset: 0;
