@@ -139,7 +139,7 @@ export const API = {
     apiRequest("/api/video/render", "POST", data),
 
   mixAudio: (data) =>
-    apiRequest("/api/audio/mix", "POST", data),
+    downloadFile("/api/audio/mix", data),
 
   generateSubtitles: (data) =>
     downloadFile("/api/subtitles/generate", data),
