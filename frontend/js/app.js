@@ -700,6 +700,11 @@ export function initialize() {
   initializeYouTubeStudio();
   initializeProjects();
 
-  initializeApp().then(connection => {
+    initializeApp().then(connection => {
     if (!connection.connected) {
-      showToast("Backend is currently unavailable. Please try again later.", "error")
+      showToast("Backend is currently unavailable. Please try again later.", "error");
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", initialize);
