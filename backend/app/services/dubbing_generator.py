@@ -39,4 +39,9 @@ def generate_hindi_dubbing(
         contents=prompt
     )
 
-    return response.text
+    result = response.text
+
+if not result or not result.strip():
+    raise ValueError("AI could not generate a dubbing script. Please try again.")
+
+return result.strip()
