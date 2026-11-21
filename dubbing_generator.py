@@ -1,0 +1,50 @@
+from google import genai
+
+from backend.app.config import GEMINI_API_KEY, GEMINI_TEXT_MODEL
+
+
+def generate_hindi_dubbing(
+    anime_title: str,
+    dialogue_text: str
+):
+    if not GEMINI_API_KEY:
+        raise ValueError("Gemini API key is missing.")
+
+    if not dialogue_text.strip():
+        raise ValueError("Dialogue text cannot be empty.")
+
+    client = genai.Client(api_key=GEMINI_API_KEY)
+
+    prompt = f"""
+    You are a professional Hindi anime dubbing script writer.
+
+    Anime: {anime_title}
+
+    Original dialogue:
+    {dialogue_text}
+
+    Create a Hindi dubbing script.
+
+    Rules:
+    - Keep every character's name separate.
+    - Translate dialogue naturally into Hindi.
+    - Preserve the original meaning and emotions.
+    - Keep the dialogue order unchanged.
+    - Do not merge different characters.
+    - Return clear speaker labels.
+    - Do not invent missing dialogue.
+    """
+
+    response = client.models.generate_content(
+        model=GEMINI_TEXT_MODEL,
+        contents=prompt
+    )
+
+    result = response.text
+
+    if not result or not result.strip():
+        raise ValueError(
+            "AI could not generate a dubbing script. Please try again."
+        )
+
+    return result.strip()
