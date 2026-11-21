@@ -380,6 +380,20 @@ function initializeDubbingStudio() {
     });
 
     output("dubbingOutput", currentDubbingScript);
+        characterDialogues = DubbingStudio.splitDubbingDialogues(
+      currentDubbingScript
+    ).map(item => ({
+      character: item.character,
+      text: item.text,
+      voice_type: "female"
+    }));
+
+    output(
+      "characterQueue",
+      characterDialogues.map(item =>
+        `${item.character} (${item.voice_type}): ${item.text}`
+      ).join("\n") || "No character dialogues found."
+    );
     showToast("Hindi dubbing script generated.", "success");
   });
 
